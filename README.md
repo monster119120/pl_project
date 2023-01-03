@@ -1,2 +1,1 @@
-# pl_project
-pytorch lightning base project
+python imagenet.py --data-path ../imagenet
