@@ -15,17 +15,11 @@ import torchvision.transforms as transforms
 import pytorch_lightning as pl
 from pytorch_lightning.core import LightningModule
 
-class ImageNetLightningModel(LightningModule):
-    MODEL_NAMES = sorted(
-        name
-        for name in models.__dict__
-        if name.islower() and not name.startswith("__") and callable(models.__dict__[name])
-    )
 
+class ImageNetLightningModel(LightningModule):
     def __init__(
         self,
         data_path: str,
-        arch: str = os.environ['ARCH'],
         pretrained: bool = False,
         lr: float = 0.1,
         momentum: float = 0.9,
@@ -36,7 +30,7 @@ class ImageNetLightningModel(LightningModule):
     ):
         super().__init__()
         self.save_hyperparameters()
-        self.arch = arch
+        self.arch = kwargs['arch']
         self.pretrained = pretrained
         self.lr = lr
         self.momentum = momentum
@@ -137,39 +131,12 @@ class ImageNetLightningModel(LightningModule):
     @staticmethod
     def add_model_specific_args(parent_parser):  # pragma: no-cover
         parser = parent_parser.add_argument_group("ImageNetLightningModel")
-        parser.add_argument(
-            "-a",
-            "--arch",
-            metavar="ARCH",
-            default="resnet18",
-            choices=ImageNetLightningModel.MODEL_NAMES,
-            help=("model architecture: " + " | ".join(ImageNetLightningModel.MODEL_NAMES) + " (default: resnet18)"),
-        )
-        parser.add_argument(
-            "-j", "--workers", default=4, type=int, metavar="N", help="number of data loading workers (default: 4)"
-        )
-        parser.add_argument(
-            "-b",
-            "--batch-size",
-            default=256,
-            type=int,
-            metavar="N",
-            help="mini-batch size (default: 256), this is the total batch size of all GPUs on the current node"
-            " when using Data Parallel or Distributed Data Parallel",
-        )
-        parser.add_argument(
-            "--lr", "--learning-rate", default=0.1, type=float, metavar="LR", help="initial learning rate", dest="lr"
-        )
+        parser.add_argument("--arch", default="resnet18",)
+        parser.add_argument("--workers", default=4, type=int, help="number of data loading workers (default: 4)")
+        parser.add_argument("--batch-size", default=256, type=int)
+        parser.add_argument("--lr", "--learning-rate", default=0.1, type=float)
         parser.add_argument("--momentum", default=0.9, type=float, metavar="M", help="momentum")
-        parser.add_argument(
-            "--wd",
-            "--weight-decay",
-            default=1e-4,
-            type=float,
-            metavar="W",
-            help="weight decay (default: 1e-4)",
-            dest="weight_decay",
-        )
+        parser.add_argument("--weight-decay", default=1e-4, type=float)
         parser.add_argument("--pretrained", dest="pretrained", action="store_true", help="use pre-trained model")
         return parent_parser
 
