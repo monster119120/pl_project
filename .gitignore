@@ -1,0 +1,6 @@
+archs/__pycache__/attention.cpython-39.pyc
+archs/__pycache__/conv.cpython-39.pyc
+archs/__pycache__/resnet.cpython-39.pyc
+lightning_logs/version_0/events.out.tfevents.1673531508.SH-IDCA1404-10-140-54-102
+lightning_logs/version_0/hparams.yaml
+lightning_logs/version_0/checkpoints/epoch=0-step=626.ckpt

@@ -14,7 +14,7 @@ import torchvision.transforms as transforms
 
 import pytorch_lightning as pl
 from pytorch_lightning.core import LightningModule
-
+from archs.resnet import *
 
 class ImageNetLightningModel(LightningModule):
     def __init__(
@@ -41,7 +41,8 @@ class ImageNetLightningModel(LightningModule):
         print('*' * 80)
         print(f'*************** Loading model {self.arch}')
         print('*' * 80)
-        self.model = models.__dict__[self.arch](pretrained=self.pretrained)
+        # self.model = resnet50(pretrained=self.pretrained)
+        self.model = resnet50_dynamic(pretrained=self.pretrained)
 
     def forward(self, x):
         return self.model(x)
@@ -168,7 +169,7 @@ def run_cli():
     )
     parent_parser.add_argument("--seed", type=int, default=42, help="seed for initializing training.")
     parser = ImageNetLightningModel.add_model_specific_args(parent_parser)
-    parser.set_defaults(profiler="simple", deterministic=True, max_epochs=90)
+    parser.set_defaults(profiler="simple", deterministic=True, max_epochs=50)
     args = parser.parse_args()
     main(args)
 

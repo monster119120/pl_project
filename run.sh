@@ -1,1 +1,1 @@
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python main.py --gpus 8 --lr 0.001 --data-path ../data/imagenet --pretrained
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python main.py --arch resnet50_dynamic --gpus 8 --lr 0.001 --data-path ../data/imagenet --pretrained --strategy ddp_find_unused_parameters_false
